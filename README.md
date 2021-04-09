@@ -2,6 +2,6 @@
 ## Problemas programação funcional: A, B e C com o Manuel Carvalho
 | Done | Problema | Descrição |
 | ------ | ------ | ------ |
-| X | A | A resposta é 42! |
-|   | B | Thumbnails |
-|   | C | Os trocos trocados |
+| Yes | A | A resposta é 42! |
+| No | B | Thumbnails |
+| No | C | Os trocos trocados |
