@@ -1,4 +1,5 @@
 # PF_A_B_C
-Problemas programação funcional: A, B e C com o Manuel Carvalho
-Problema A: 42 é a resposta! Ver os caminhos
-Problema B: Mostrar as folhas e construir um thumbnail
+<p><h3>Problemas programação funcional: A, B e C com o Manuel Carvalho</h3</p>
+<p>Problema A: A resposta é 42!</p>
+<p>Problema B: Thumbnails</p>
+<p>Problema C: Os trocos trocados</p>
