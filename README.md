@@ -1,6 +1,7 @@
-# PF_A_B_C
-<p><h3>Problemas programação funcional: A, B e C com o Manuel Carvalho</h3></p>
-  
-<p>[x]Problema A: A resposta é 42!</p>
-<p>[ ]Problema B: Thumbnails</p>
-<p>[ ]Problema C: Os trocos trocados</p>
+# PF_A_B_C  
+## Problemas programação funcional: A, B e C com o Manuel Carvalho
+| Done | Problema | Descrição |
+| ------ | ------ | ------ |
+| X | A | A resposta é 42! |
+|   | B | Thumbnails |
+|   | C | Os trocos trocados |
