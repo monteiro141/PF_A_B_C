@@ -43,13 +43,10 @@ Este formato tem a vantagem de poder compactar a representação de uma imagem (
 
 A construção da árvore a partir da matriz é feita de forma recursiva. Uma imagem (matriz) é dividida ordenadamente em 4 partes iguais. As partes NW, NE, SE e SW.
 
-                                                    [------]    [------] 
-                                                    [--NW--]    [--NE--] 
-                                                    [------]    [------]
-
-                                                    [------]    [------] 
-                                                    [--SW--]    [--SE--] 
-                                                    [------]    [------]  
+<p align="center">                                                 
+![3765736894572962](https://user-images.githubusercontent.com/46536704/114282669-263ac380-9a3d-11eb-867b-de6160fa26be.png)
+</p>
+                                                 
         
 -------------------//-------------------//-------------------//-------------------//-------------------//-------------------//-------------------//-----------
 # Problema C
