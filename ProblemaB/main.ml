@@ -3,13 +3,29 @@ type image = L of color (* leaf of one color *)
            | N of image * image * image * image  (* node with four children *)
            
 
-(* Criar matriz N por N e atribuir valor random a cada posição*)
-let createMatrix n m =
-    for j=0 to n-1 do
-        for l=0 to n-1 do
-            m.(j).(l) <- (Random.int 100)
-        done
-    done;
+(*
+0 0 0 0 1 0 1 0
+0 0 0 0 0 0 0 1
+0 0 0 0 0 0 1 1
+0 0 0 0 0 1 1 1
+0 0 0 0 1 1 1 1
+0 0 0 0 1 1 1 1
+0 0 0 1 1 1 1 1
+0 0 1 1 1 1 1 1
+*)
+(* Criar matriz N por N e atribuir valor random a cada posição
+(Array.make_matrix size size 0)
+*)
+
+(**Acabar isto*)
+let createMatrix n =
+    let m = Array.make_matrix n n 0 in
+        for j=0 to n-1 do
+            for l=0 to n-1 do
+                let x = Scanf.scanf "%d " x in
+                    m.(j).(l) <- x
+            done;
+        done;
     m
 ;;
 
@@ -23,6 +39,13 @@ for j=0 to n-1 do
 done
 ;;
 
-showMatrix (createMatrix 5 (Array.make_matrix 5 5 0)) 5;;
+
+(*Main*)
+let size = 8  in
+    let m = (createMatrix size) in
+    showMatrix m size
+;;
+
+
 
 (*m.(x).(y) <- Aceder à pos (x,y) da matriz *)
