@@ -56,7 +56,10 @@ let createMatrix n =
 let showMatrix m n=
 for j=0 to n-1 do
     for l=0 to n-1 do
+        if l < n-1 then
         Printf.printf "%d " m.(j).(l)
+        else
+        Printf.printf "%d" m.(j).(l)
     done;
     Printf.printf "\n" 
 done
