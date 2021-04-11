@@ -25,12 +25,13 @@ P1
 22
 0 0 0 1
 0 0 0 1
-0 0 1 1 
+0 0 1 1
 0 1 1 1 
 
 
 *)
-(* Criar matriz N por N e atribuir valor random a cada posição
+(*
+Criar matriz N por N e atribuir valor random a cada posição
 (Array.make_matrix size size 0)
 *)
 let createMatrix n =
@@ -51,7 +52,9 @@ let createMatrix n =
     m
 ;;
 
-(*Mostrar cada posição da matriz *)
+(*
+Mostrar cada posição da matriz 
+*)
 let showMatrix m n=
 for j=0 to n-1 do
     for l=0 to n-1 do
@@ -61,6 +64,12 @@ for j=0 to n-1 do
 done
 ;;
 
+(*
+Função para criar a matriz após ser dividida por quadrante
+-matrixOriginal-> Matriz que vai ser dividida para outra consoante o quadrante que lhe é passando
+-tamanhoOriginal-> Tamanho da matriz nova
+-inicialJ e inicialL-> Posições em relação à matriz original usados para definir os offsets dos valores
+*)
 let createMatrixByQuadrant matrixOriginal tamanho inicialJ inicialL =
     let m = Array.make_matrix tamanho tamanho 0 in
         for j=0 to tamanho-1 do
@@ -71,14 +80,19 @@ let createMatrixByQuadrant matrixOriginal tamanho inicialJ inicialL =
     m
 ;;
 
-(*Função para dividir as matrizes*)
+(*
+Função para dividir as matrizes
+-matrixOriginal-> Matriz que vai ser dividida para outra consoante o quadrante que lhe é passando
+-tamanhoOriginal-> Tamanho da matriz antes de ser dividido, usado para definir o quadrante NW SW NE SE
+-quadrante-> NW(1), NE(2), SW(3) e SE(4)
+*)
 let splitMatrix matrixOriginal tamanhoOriginal quadrante =
     match quadrante with
-    |1 -> showMatrix (createMatrixByQuadrant matrixOriginal (tamanhoOriginal/2) 0 0) (tamanhoOriginal/2)
-    |2 -> showMatrix (createMatrixByQuadrant matrixOriginal (tamanhoOriginal/2) 0 (tamanhoOriginal/2)) (tamanhoOriginal/2)
-    |3 -> showMatrix (createMatrixByQuadrant matrixOriginal (tamanhoOriginal/2) (tamanhoOriginal/2) 0) (tamanhoOriginal/2)
-    |4 -> showMatrix (createMatrixByQuadrant matrixOriginal (tamanhoOriginal/2) (tamanhoOriginal/2) (tamanhoOriginal/2)) (tamanhoOriginal/2)
-    |_ -> Printf.printf "No quadrant.\n"
+    |1 -> (createMatrixByQuadrant matrixOriginal (tamanhoOriginal/2) 0 0)
+    |2 -> (createMatrixByQuadrant matrixOriginal (tamanhoOriginal/2) 0 (tamanhoOriginal/2))
+    |3 -> (createMatrixByQuadrant matrixOriginal (tamanhoOriginal/2) (tamanhoOriginal/2) 0) 
+    |4 -> (createMatrixByQuadrant matrixOriginal (tamanhoOriginal/2) (tamanhoOriginal/2) (tamanhoOriginal/2)) 
+    |_ -> (createMatrixByQuadrant matrixOriginal (tamanhoOriginal) 0 0) 
 ;;
 (*
 Função para comparar se a matriz é folha ou node
@@ -89,32 +103,30 @@ let checkForZerosAndOnes m =
         Array.for_all (fun a -> Array.for_all (fun a -> a = x) a) m
 ;;
 
-(*Undone
-let checkLeaf matrix size =
-    if (checkForZerosAndOnes m) then
+(*
+Função para contar a quantidade de leafs
+*)
+let rec checkLeaf matrix size =
+    if (checkForZerosAndOnes matrix) then
         1 (*Conta 1 folha*)
     else 
+        let nw = checkLeaf (splitMatrix matrix size 1 ) (size/2) and
+        ne = checkLeaf (splitMatrix matrix size 2 ) (size/2) and
+        sw = checkLeaf (splitMatrix matrix size 3 ) (size/2) and
+        se = checkLeaf (splitMatrix matrix size 4 ) (size/2) in
+        (nw + ne + sw + se)
+;;
 
-;;*)
-
-
-
-(*Main*)
+(*
+Main
+*)
 let size = 8  in
     let m = (createMatrix size) in
     Printf.printf "\nMatriz scanned:\n";
     showMatrix m size;
-    Printf.printf "\nPrimeiro Quadrante:\n";
-    splitMatrix m 8 1;
-    Printf.printf "Segundo Quadrante:\n";
-    splitMatrix m 8 2;
-    Printf.printf "Terceiro Quadrante:\n";
-    splitMatrix m 8 3;
-    Printf.printf "Quarto Quadrante:\n";
-    splitMatrix m 8 4
+    let leafs = checkLeaf m size in
+    Printf.printf "Leafs: %d\n" leafs
     
 ;;
-
-
 
 (*m.(x).(y) <- Aceder à pos (x,y) da matriz *)
