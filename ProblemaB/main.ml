@@ -1,7 +1,6 @@
 type color = W | B (* W: White, B: Black *)
 type image = L of color (* leaf of one color *)
            | N of image * image * image * image  (* node with four children *)
-           
 (*
 **Exemplo de Entrada**
 
@@ -112,11 +111,35 @@ let rec checkLeaf matrix size =
     if (checkForZerosAndOnes matrix) then
         1 (*Conta 1 folha*)
     else 
-        let nw = checkLeaf (splitMatrix matrix size 1 ) (size/2) and
-        ne = checkLeaf (splitMatrix matrix size 2 ) (size/2) and
-        sw = checkLeaf (splitMatrix matrix size 3 ) (size/2) and
-        se = checkLeaf (splitMatrix matrix size 4 ) (size/2) in
+        let nw = checkLeaf (splitMatrix matrix size 1 ) (size/2)  and
+        ne = checkLeaf (splitMatrix matrix size 2 ) (size/2)  and
+        sw = checkLeaf (splitMatrix matrix size 3 ) (size/2)  and
+        se = checkLeaf (splitMatrix matrix size 4 ) (size/2)  in
         (nw + ne + sw + se)
+;;
+(**
+Comparar os 4 setores para verificar a profundidade
+@param a Tanto a,b,c e d são variaveis para NW NE SW SE nessa ordem
+*)
+let compareFourVariables a b c d = 
+    if (a <= b && a <=c && a <=d) then a else if (b <= a && b <=c && b <=d) then b else if (c <= a && c <=b && c <=d) then c else d
+;;    
+
+(**
+Função para verificar a folha mais alta
+@param matrix matriz a dividir
+@param size Tamanho da mesma
+@param numDivisoes Numero de divisoes feitas ate chegar a folha
+@return Numero da folha mais alta*)
+let rec checkHigherLeaf matrix size numDivisoes =
+    if (checkForZerosAndOnes matrix) then
+        numDivisoes 
+    else 
+        let nw = checkHigherLeaf (splitMatrix matrix size 1 ) (size/2) (numDivisoes+1) and
+        ne = checkHigherLeaf (splitMatrix matrix size 2 ) (size/2) (numDivisoes+1) and
+        sw = checkHigherLeaf (splitMatrix matrix size 3 ) (size/2) (numDivisoes+1) and
+        se = checkHigherLeaf (splitMatrix matrix size 4 ) (size/2) (numDivisoes+1)in
+        compareFourVariables nw ne sw se
 ;;
 (*-----------Parte B----------------*)
 let compareOnesAndZeros m size =
@@ -129,7 +152,7 @@ let compareOnesAndZeros m size =
                 ones := !ones +1
         done
     done;
-    if !ones >= !zeros then !ones else !zeros
+    if !ones >= !zeros then 1 else 0
 ;;
 
 (** Transformar a matriz original para uma thumbnail
@@ -141,25 +164,44 @@ let compareOnesAndZeros m size =
 @param currentDivision Divisão atual da matriz, começa a 0 e vai até ao numberOfDivisions  
 @return Devolve uma matriz thumbnail final*)
 
-(*
-let matrixToThumbnail matrixOriginal sizeOriginal sizeThumbnail numberOfDivisions currentDivision offsetJ offsetL=
-    let matrixThumbnail = Array.make_matrix sizeThumbnail sizeThumbnail 0 in
+let matrixToThumbnail matrixOriginal sizeOriginal sizeThumbnail numberOfDivisions currentDivision offsetJ offsetL =
+    let matrixThumbnail = Array.make_matrix sizeThumbnail sizeThumbnail 2 in 
         let rec splitToThumbnail matrixOriginal size numberOfDivisions currentDivision offsetJ offsetL =
-            match currentDivision with
-            |_ when currentDivision = numberOfDivisions -> matrixThumbnail.(offsetJ).(offsetL) = compareOnesAndZeros matrixOriginal size
-            |_                                          -> splitToThumbnail 
+            if (currentDivision < numberOfDivisions) then (
+                splitToThumbnail (splitMatrix matrixOriginal size 1) (size/2) (numberOfDivisions) (currentDivision+1) (offsetJ+offsetJ) (offsetL+offsetL);
+                splitToThumbnail (splitMatrix matrixOriginal size 2) (size/2) (numberOfDivisions) (currentDivision+1) (offsetJ+offsetJ) (offsetL+offsetL+1);
+                splitToThumbnail (splitMatrix matrixOriginal size 3) (size/2) (numberOfDivisions) (currentDivision+1) (offsetJ+offsetJ+1) (offsetL+offsetL);
+                splitToThumbnail (splitMatrix matrixOriginal size 4) (size/2) (numberOfDivisions) (currentDivision+1) (offsetJ+offsetJ+1) (offsetL+offsetL+1)
+                )
+            else(
+                matrixThumbnail.(offsetJ).(offsetL) <- compareOnesAndZeros matrixOriginal size
+                )
+        in
+        splitToThumbnail (splitMatrix matrixOriginal sizeOriginal 0) (sizeOriginal) (numberOfDivisions) (0) (0) (0);
+    matrixThumbnail
+;;  
+
+let log x = 
+    Stdlib.log x
 ;;
-*)
+
+let log2 x = 
+    log x /. log 2.
+;;
 
 (*-----------------Main-----------------*)
-let size = Scanf.scanf "%d" (fun x:int -> x) and size2 = Scanf.scanf " %d\n" (fun x:int -> x) in
-    let m = (createMatrix size) in
+let x = read_line ();;
+let size = Scanf.scanf "%d " (fun x:int -> x) and size2 = Scanf.scanf "%d\n" (fun x:int -> x) in
+    let m = (createMatrix ((size+size2)/2)) in
     (*Printf.printf "\nMatriz scanned:\n";
     showMatrix m size;*)
+    let level = checkHigherLeaf m size 0 in
+    Printf.printf "%d\n" level;
     let leafs = checkLeaf m size in
-    Printf.printf "Leafs: %d\n" leafs;
-    (*
-    let mThumbnail = matrixToThumbnail m size 4 2 0 0 0 in
-    showMatrix mThumbnail 4;
-    *)
+    Printf.printf "%d\n" leafs;
+    (* matrixOriginal=m sizeOriginal=size sizeThumbnail=4 numberOfDivisions=2 currentDivision=0 offsetJ=0 offsetL=0*)
+    (*Falta o log2(sizeForThumbnail)*)
+    let sizeForThumbnail = Scanf.scanf "%d\n" (fun x:int -> x) in
+    let mThumbnail = matrixToThumbnail m size sizeForThumbnail (int_of_float (log2 (float_of_int sizeForThumbnail))) 0 0 0 in
+    showMatrix mThumbnail sizeForThumbnail;
 ;;
