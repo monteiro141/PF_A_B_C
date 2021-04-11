@@ -77,7 +77,9 @@ P1
 0 0 0 1
 0 0 1 1 
 0 1 1 1 
--------------------//-------------------//-------------------//-------------------//-------------------//-------------------//-------------------//-----------
+
+
+-------------------//-------------------
 # Problema C
 
 Vamos neste exercício exemplificar as diferenças entre programação dinâmica e algoritmos gulosos. Para tal, olhemos para o problema clássico dos trocos em diversos sistemas monetários, alguns esotéricos.
@@ -101,3 +103,13 @@ Uma linha com:
 ## Limites
 0 < n ≤ 100, e as moedas não ultrapassam o valor 500.
         
+## Exemplo de Entrada
+
+3
+1
+3
+4
+
+## Exemplo de Saída
+
+6
