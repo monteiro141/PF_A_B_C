@@ -25,6 +25,17 @@ De duas, uma:
 ## Limites
 0 < N ≤ 1  000  000
 
+## Exemplo de Entrada
+250   
+
+## Exemplo de Saída
+4  
+## Explicação
+<p align="center">
+<img src="https://user-images.githubusercontent.com/46536704/114288946-b3950c80-9a6b-11eb-8287-10ada5fc8847.png">
+</p>   
+
+
 
 -------------------//-------------------
 # Problema B
