@@ -48,7 +48,7 @@ Para a manipulação de uma imagem, é muitas vezes mais cómodo e eficiente usa
 
 type color = W | B (* W: White, B: Black *)  
 type image = L of color (* leaf of one color *)  
-           | N of image * image * image * image  (* node with four children *)  
+           | N of image * image * image * image  (* node with four children *)
            
 Este formato tem a vantagem de poder compactar a representação de uma imagem (num tamanho menor do que a matriz subjacente) tirando proveito de padrões cromáticos presentes na imagem. A definição do tipo aqui dada o é a título de exemplo. Este poderá ser alterado conforme eventuais necessidades.
 
