@@ -134,24 +134,32 @@ let compareOnesAndZeros m size =
 
 (** Transformar a matriz original para uma thumbnail
 @param matrixOriginal matriz original
+@param matrixDecoy Matriz dividida
 @param sizeOriginal Tamanho da matriz original
 @param sizeThumbnail Tamanho da matriz thumbnail
 @param numberOfDivisions Log2(Tamanho da matriz thumbnail)
 @param currentDivision Divisão atual da matriz, começa a 0 e vai até ao numberOfDivisions  
 @return Devolve uma matriz thumbnail final*)
+
 (*
 let matrixToThumbnail matrixOriginal sizeOriginal sizeThumbnail numberOfDivisions currentDivision offsetJ offsetL=
     let matrixThumbnail = Array.make_matrix sizeThumbnail sizeThumbnail 0 in
-        let rec splitToThumbnail matrixOriginal numberOfDivisions currentDivision
+        let rec splitToThumbnail matrixOriginal size numberOfDivisions currentDivision offsetJ offsetL =
+            match currentDivision with
+            |_ when currentDivision = numberOfDivisions -> matrixThumbnail.(offsetJ).(offsetL) = compareOnesAndZeros matrixOriginal size
+            |_                                          -> splitToThumbnail 
 ;;
 *)
 
 (*-----------------Main-----------------*)
-let size = 8  in
+let size = Scanf.scanf "%d" (fun x:int -> x) and size2 = Scanf.scanf " %d\n" (fun x:int -> x) in
     let m = (createMatrix size) in
-    Printf.printf "\nMatriz scanned:\n";
-    showMatrix m size;
+    (*Printf.printf "\nMatriz scanned:\n";
+    showMatrix m size;*)
     let leafs = checkLeaf m size in
     Printf.printf "Leafs: %d\n" leafs;
-    
+    (*
+    let mThumbnail = matrixToThumbnail m size 4 2 0 0 0 in
+    showMatrix mThumbnail 4;
+    *)
 ;;
