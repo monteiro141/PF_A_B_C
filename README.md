@@ -26,7 +26,7 @@ De duas, uma:
 0 < N ≤ 1  000  000
 
 
--------------------//-------------------//-------------------//-------------------//-------------------//-------------------//-------------------//-----------
+-------------------//-------------------
 # Problema B
 
 ## Considere o problema da representação e manipulação eficiente de imagens quadradas.
@@ -57,6 +57,7 @@ Uma linha com o valor inteiro que indica a profundidade da folha mais alta da á
 Os valores de n e p são potências de dois. É garantido que 0 < p ≤ n ≤ 1024.
 
 ## Exemplo de Entrada
+
 
 P1
 8 8
