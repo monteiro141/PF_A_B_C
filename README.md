@@ -3,7 +3,7 @@
 | Done | Problema | Descrição |
 | ------ | ------ | ------ |
 | Yes | A | A resposta é 42! |
-| No | B | Thumbnails |
+| Yes | B | Thumbnails |
 | No | C | Os trocos trocados |
 
 # Problema A
