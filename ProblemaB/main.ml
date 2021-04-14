@@ -67,7 +67,8 @@ done
 
 
 (*-----------Parte A----------------*)
-(**Criar a matriz após ser dividida por quadrante
+(**
+@summary Criar a matriz após ser dividida por quadrante
 @param matrixOriginal Matriz que vai ser dividida para outra consoante o quadrante que lhe é passando
 @param tamanhoOriginal Tamanho da matriz nova
 @param inicialJ Posições em relação à matriz original usados para definir os offsets dos valores
