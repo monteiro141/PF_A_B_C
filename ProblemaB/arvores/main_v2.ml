@@ -1,36 +1,41 @@
+(*Struct da arvore onde pode ser um node com 4 ramos ou uma folha W | B com um int profundidade*)
 type color = W | B (* W: White, B: Black *)
-type image = Leaf of color * int (* leaf of one color *)
+type image = Leaf of color * int (* leaf of one color and int depth*)
            | Node of image * image * image * image  (* node with four children  NW NE SW SE nesta ordem*) 
 let mytree = Leaf (W,0);;
       
 
 (*Aux functions*)
+(*Função auxiliar para ajudar a calcular o resultado final na matriz thumbnail. Se, por exemplo, a matriz for 2x2 então cada 0 equivale a -1 e cada 1 equivale a 1.
+Caso a soma deles seja maior ou igual a zero quer dizer que há mais 1's que 0's*)
 let oneOrZero a =
   if a = W then
     -1
   else
     1
 ;;
-
+(*Função auxiliar para mudar o numero da matriz para uma folha W ou B*)
 let wOrB a =
   if a = 1 then
     B
   else
     W
 ;;
-
+(*Função auxiliar usada na matrix to tree para saber se as 4 folhas a ser comparadas são iguais para formar uma folha "maior", caso contrario mantem se o node*)
 let treeNodetoLeaf a =
   match a with
   | Leaf(a,b) -> oneOrZero a
   | Node(a,b,c,d) -> 0
 ;;
 
+(*Função auxiliar usada para calcular se a matriz thumbnail vai ter 1 ou 0 na posição onde é chamada*)
 let rec changeNodeToLeaf tree =
   match tree with
   | Leaf (a,b) -> b
   | Node(a,b,c,d) -> changeNodeToLeaf a + changeNodeToLeaf b + changeNodeToLeaf c + changeNodeToLeaf d 
 ;;
 
+(*Função auxiliar logx e log2 usadas para calcular o numero de cortes na matriz thumbnail*)
 let log x = 
   Stdlib.log x
 ;;
@@ -39,6 +44,8 @@ let log2 x =
   log x /. log 2.
 ;;
 
+
+(*Função auxiliar usada na folha mais alta, o valor menor de a, b, c e d vai ser retornado*)
 let compareFourVariables a b c d = 
   if (a <= b && a <=c && a <=d) then a else if (b <= a && b <=c && b <=d) then b else if (c <= a && c <=b && c <=d) then c else d
 ;;   
@@ -99,7 +106,9 @@ let splitMatrix matrixOriginal tamanhoOriginal quadrante =
   |4 -> (createMatrixByQuadrant matrixOriginal (tamanhoOriginal/2) (tamanhoOriginal/2) (tamanhoOriginal/2)) 
   |_ -> (createMatrixByQuadrant matrixOriginal (tamanhoOriginal) 0 0) 
 ;;
-
+(**Mostrar a matriz
+@param m Matriz a ser mostrada no output
+@param n Tamanho da matriz*)
 let showMatrix m n=
 for j=0 to n-1 do
   for l=0 to n-1 do
@@ -115,6 +124,12 @@ done
 (*
 -------------------------Step 2: Input matrix to tree-------------------------
 *)
+(** Função recebe uma matriz criada a partir do input e transforma numa árvore
+@param matrixOriginal Matriz criada a partir do input
+@param size Tamanho da matriz atual, vai ser dividida em metade até chegar a [1,1], esse valor vai ser implementado numa arvore onde, recursivamente, vai ser transformado em 
+folhas maiores ou nodes
+@param tree Arvore original, começa em apenas Leaf(w,1) e é transformada numa outra arvore recurvisamente
+@return Arvore final*)
 let rec matrixToTree matrixOriginal size tree = 
   if size = 1 then(
     Leaf(wOrB matrixOriginal.(0).(0),(if matrixOriginal.(0).(0) = 1 then 1 else ~-1))
@@ -139,6 +154,11 @@ let rec matrixToTree matrixOriginal size tree =
 (*
 -------------------------Step 3: Higher leaf-------------------------
 *)
+(** Função que vai apanhar a folha mais alta, recursivamente. Esta função tem 2 condições, seja folha: devolve folha; ou seja Node: compara qual das 4 folhas/nodes do mesmo node é mais alto
+@param tree Arvore a ser analisada
+@param divisoes Numero de divisoes atual, incrementa quando chega a um node de forma a ter uma recursiva terminal
+@return Numero de divisoes mais baixo, ou seja, folha mais alta
+*)
 let rec checkHigherLeaf tree divisoes =
   match tree with
   | Leaf(a,b) -> divisoes
@@ -146,6 +166,10 @@ let rec checkHigherLeaf tree divisoes =
 ;;
 (*
 -------------------------Step 4: Count leafs-------------------------
+*)
+(** Função para contar folhas de uma arvore, caso chegue a uma folha retorna 1, caso contrario vai dividindo a arvore e soma todas as recursivas
+@param tree Arvore a ser analisada
+@return Numero de folhas
 *)
 let rec countLeafs tree =
   match tree with
@@ -155,7 +179,15 @@ let rec countLeafs tree =
 (*
 -------------------------Step 5: Thumbnail-------------------------
 *)
-let matrixToThumbnail tree sizeThumbnail sizeOriginal numberOfDivisions=
+(**Função para transformar a árvore numa matriz thumbnail, vai dividindo em 4 quadrantes NW NE SW SE, quando chega ao numero maximo de cortes a função começa a comparar as folhas ou nodes
+da mesma. À medida que vai dividindo, os offsetJ e offsetL vai incrementando consoante o quadrante que lhe, ao completar os cortes esses offsetJ e offsetL são as coordenadas na matriz thumbnail
+para o resultado da transformação da arvore para matriz
+@param tree Arvore a ser analisada
+@param sizeThumbnail Tamanho da matriz thumbnail, usado para criar a matriz final
+@param numberOfDivisions Valor para controlar quando se deve continuar a cortar ou começar a pegar nos valores da arvore e passar para matriz thumbnail
+@return Matriz thumbnail
+*)
+let matrixToThumbnail tree sizeThumbnail numberOfDivisions =
 let matrixThumbnail = Array.make_matrix sizeThumbnail sizeThumbnail 2 in
   let rec printmytree tree n offsetJ offsetL =
     if n < numberOfDivisions then(
@@ -196,5 +228,5 @@ let size = Scanf.scanf "%d " (fun x:int -> x) and size2 = Scanf.scanf "%d\n" (fu
       in
         Printf.printf "%d\n" level;
         Printf.printf "%d\n" leafs;
-        showMatrix (matrixToThumbnail mytree sizeForThumbnail size (int_of_float (log2 (float_of_int sizeForThumbnail)))) sizeForThumbnail
+        showMatrix (matrixToThumbnail mytree sizeForThumbnail (int_of_float (log2 (float_of_int sizeForThumbnail)))) sizeForThumbnail
 ;;

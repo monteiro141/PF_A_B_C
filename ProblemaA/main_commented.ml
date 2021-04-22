@@ -1,3 +1,9 @@
+(**
+@summary Função fortytwo conta o numero de passos minimos para o resultado 42 ou badluck! Caso a função retorne counting então é um mau caminho.
+@param i Numero a comparar para chegar ao 42
+@param counting Numero igual ao i original, usado para controlar.
+@return int A ou B ou C, qual for o menor dos 3 senão retorna C
+*)
 let rec fortytwo i counting=
     if(i >= 42) then(
       if(i = 42) then (0) else 
