@@ -45,3 +45,25 @@ if(y <> x) then (
 )
 else
   print_string "BAD LUCK\n"
+
+(*
+  fortytwo 52 52
+    52 >= 42 ? SIM
+      52 = 42 ? NÃO
+      52 % 2 = 0 ? SIM
+        a = 1 + fortytwo (52/2) 52
+            fortytwo 26 52
+              26 >= 42? NÃO
+              return 52
+      52 % 3 = 0 || 52 % 4 = 0 && 5 != 0 &&  2 != 0 ? SIM
+        b = 1 + fortytwo (52-(5x2)) 52
+            fortytwo 42 52
+              42 >= 42 ? SIM
+                42 = 42 ? SIM
+                return 0
+      52 % 5 = 0 ? NÃO
+        c = 52
+      a = 52, b = 1, c = 52
+      c < a && c < b 
+      return c
+*)
