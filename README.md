@@ -4,7 +4,7 @@
 | ------ | ------ | ------ |
 | Yes | A | A resposta é 42! |
 | Yes | B | Thumbnails |
-| No | C | Os trocos trocados |
+| YES | C | Os trocos trocados |
 
 # Problema A
 

@@ -1,2 +1,2 @@
 echo "Input 1"
-main <i/01.in
+mainv2 <i/01.in

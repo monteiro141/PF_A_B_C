@@ -230,3 +230,87 @@ let size = Scanf.scanf "%d " (fun x:int -> x) and size2 = Scanf.scanf "%d\n" (fu
         Printf.printf "%d\n" leafs;
         showMatrix (matrixToThumbnail mytree sizeForThumbnail (int_of_float (log2 (float_of_int sizeForThumbnail)))) sizeForThumbnail
 ;;
+
+(**
+INPUT:
+P1
+2 2
+0 0
+1 0
+1
+
+Ouput:
+1
+2
+0
+
+Simulação:
+ler os valores -> 2 2 para size e size2
+0 0 1 0 para uma matriz 2x2
+transformar a matriz em árvore:
+  arvore = matrixToTree matriz tamanho(2) arvore
+            ->  tamanho = 1? Não
+                então matrixToTree nw, matrixToTree ne, matrixToTree sw, matrixToTree se
+                  matrixToTree nw:
+                    tamanho = 1? Sim
+                    então nw(a,b) -> a é W ? Sim então Leaf (W,-1)
+                  matrixToTree ne:
+                    tamanho = 1? Sim
+                    então ne(a,b) -> a é W ? Sim então Leaf (W,-1)
+                  matrixToTree sw:
+                    tamanho = 1? Sim
+                    então sw(a,b) -> a é W ? Não então Leaf (B,1)
+                  matrixToTree se:
+                    tamanho = 1? Sim
+                    então se(a,b) -> a é W ? Sim então Leaf (W,-1)
+                nw = sw = se = ne = W?Não então
+                nw = sw = se = ne = B?Não então
+                node(nw,ne,sw,se)
+  
+contar folha mais alta:
+  folha = checkHigherLeaf tree divisoes(0) 
+        -> tree é folha? devolve divisões
+        -> tree é node? devolve minimo dos checkHigherLeaf nw checkHigherLeaf ne checkHigherLeaf sw checkHigherLeaf se
+
+        -> Node(Leaf(W,-1),Leaf(W,-1),Leaf(B,1),Leaf(W,-1)) é leaf? não então
+        minimo de checkHigherLeaf Leaf(W,-1) 0+1  checkHigherLeaf Leaf(W,-1) 0+1 checkHigherLeaf Leaf(B,1) 0+1 checkHigherLeaf Leaf(W,-1) 0+1
+          checkHigherLeaf Leaf(W,-1) 1:
+            Leaf(W,-1) é leaf? Sim então devolve 1
+          checkHigherLeaf Leaf(W,-1) 1:
+            Leaf(W,-1) é leaf? Sim então devolve 1
+          checkHigherLeaf Leaf(B,1) 1:
+            Leaf(B,1) é leaf? Sim então devolve 1
+          checkHigherLeaf Leaf(W,-1) 1:
+            Leaf(W,-1) é leaf? Sim então devolve 1  
+        minimo de 1 1 1 1 ? 1
+  folha = 1
+
+contar folhas:
+  folhas = countLeafs tree
+        -> tree é folha? devolve 1
+        -> tree é node? devolve soma dos countLeafs nw countLeafs ne countLeafs sw countLeafs se
+
+        -> Node(Leaf(W,-1),Leaf(W,-1),Leaf(B,1),Leaf(W,-1)) é leaf? não então
+        soma de countLeafs Leaf(W,-1)  countLeafs Leaf(W,-1) countLeafs Leaf(B,1) countLeafs Leaf(W,-1)
+          countLeafs Leaf(W,-1):
+            Leaf(W,-1) é leaf? Sim então devolve 1
+          countLeafs Leaf(W,-1):
+            Leaf(W,-1) é leaf? Sim então devolve 1
+          countLeafs Leaf(B,1):
+            Leaf(B,1) é leaf? Sim então devolve 1
+          countLeafs Leaf(W,-1):
+            Leaf(W,-1) é leaf? Sim então devolve 1  
+        soma de 1 1 1 1 ? 4
+  folhas = 4
+
+matriz final thumbnail:
+thumbnail = matrixToThumbnail arvore 1 log2(1)
+          -> matrix = Array.make_matrix 1 1 2:
+              printmytree arvore n(0) offsetJ(0) offsetL(0)
+                1 < 1? Não
+                então
+                  matrix.(offsetJ).(offsetL) <- 1 se changeNodeToLeaf arvore >= 0 senão 0
+thumbnail = 0
+
+
+*)              

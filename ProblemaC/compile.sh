@@ -1,3 +1,3 @@
 #!/bin/bash
-ocamlopt main.ml -o main
+ocamlopt mainv2.ml -o mainv2
 rm *.cmi *.cmx *.o &> /dev/null
